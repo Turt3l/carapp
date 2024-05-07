@@ -17,14 +17,6 @@ Meteor.methods({
   },
 });
 Meteor.startup(async () => {
-  // If the Links collection is empty, add some data.
-  if ((await LinksCollection.find().countAsync()) === 0) {
-    await insertLink({
-      model: "a2",
-      year: "2002",
-    });
-  }
-
   // We publish the entire Links collection to all clients.
   // In order to be fetched in real-time to the clients
   Meteor.publish("links", function () {
