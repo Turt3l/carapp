@@ -71,9 +71,9 @@ export default function MakeScreen() {
   };
 
   const getModelsForSelectedCar = () => {
-    const selectedCar = data.vehicle.make
-      .find((make) => make.brand === formData.car)
-      .sort();
+    const selectedCar = data.vehicle.make.find(
+      (make) => make.brand === formData.car
+    );
     return selectedCar ? selectedCar.models : [];
   };
 
@@ -82,7 +82,7 @@ export default function MakeScreen() {
       <StyledPageUpper />
       <Dropdown
         title="Mašīnas marka"
-        options={data.vehicle.make.map((make) => make.brand).sort()}
+        options={data.vehicle.make.map((make) => make.brand)}
         onSelect={onSelect("car")}
       />
       <Dropdown
