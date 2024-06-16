@@ -1,0 +1,14 @@
+{
+  "packages": {
+    "mongo": {
+      "options": {
+        "tlsAllowInvalidCertificates": true
+      }
+    }
+  },
+  "galaxy.meteor.com": {
+    "env": {
+      "MONGO_URL": "mongodb+srv://dbUser:P3p3bo11.@cluster0.xac2rhr.mongodb.net/"
+    }
+  }
+}
