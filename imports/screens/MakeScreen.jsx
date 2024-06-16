@@ -4,52 +4,17 @@ import Dropdown from "../components/Dropdown/Dropdown";
 import Choice from "../components/Choice/Choice";
 import NumberField from "../components/NumberField/NumberField";
 import StyledPageUpper from "../components/styledPageUpper/StyledPageUpper";
+import data from "../../formData.json";
 import { useNavigate } from "react-router-dom";
-
-const carOptions = [
-  {
-    title: "BMW",
-    logoSrc: "https://i.ebayimg.com/images/g/FXAAAOSwZYhjjOIE/s-l1600.png",
-  },
-  {
-    title: "Audi",
-    logoSrc:
-      "https://upload.wikimedia.org/wikipedia/commons/9/92/Audi-Logo_2016.svg",
-  },
-];
-
-const carBodyType = [
-  {
-    title: "Kupeja",
-  },
-  {
-    title: "Mikroautobuss",
-  },
-];
-
-const models = [
-  { title: "a3" },
-  { title: "a2" },
-  { title: "a4" },
-  { title: "a6" },
-];
-
-const colorOptions = [
-  {
-    title: "Sarkana",
-    colorCode: "FF0000",
-  },
-];
 
 const gearboxTypes = ["Manuāls", "Automāts"];
 const engineTypes = ["Dīzelis", "Benzīns", "Elektriskais", "Hibrīds"];
 
-export default function MakeScreen(tele) {
+export default function MakeScreen() {
   const [formData, setFormData] = useState({
     car: "",
     carBody: "",
     model: "",
-    color: "",
     gearbox: "",
     engine: "",
     yearStart: "",
@@ -58,6 +23,8 @@ export default function MakeScreen(tele) {
     volumeEnd: "",
     mileageStart: "",
     mileageEnd: "",
+    priceStart: "",
+    priceEnd: "",
   });
 
   const navigate = useNavigate();
@@ -68,7 +35,18 @@ export default function MakeScreen(tele) {
       "links.insertLink",
       {
         model: formData.model,
-        year: formData.yearStart,
+        car: formData.car,
+        carBody: formData.carBody,
+        gearbox: formData.gearbox,
+        engine: formData.engine,
+        yearStart: formData.yearStart,
+        yearEnd: formData.yearEnd,
+        volumeStart: formData.volumeStart,
+        volumeEnd: formData.volumeEnd,
+        mileageStart: formData.mileageStart,
+        mileageEnd: formData.mileageEnd,
+        priceStart: formData.priceStart,
+        priceEnd: formData.priceEnd,
       },
       (err, res) => {
         if (err) {
@@ -88,7 +66,15 @@ export default function MakeScreen(tele) {
   };
 
   const onSelect = (field) => (value) => {
+    console.log(field);
     updateFormData(field, value);
+  };
+
+  const getModelsForSelectedCar = () => {
+    const selectedCar = data.vehicle.make
+      .find((make) => make.brand === formData.car)
+      .sort();
+    return selectedCar ? selectedCar.models : [];
   };
 
   return (
@@ -96,23 +82,18 @@ export default function MakeScreen(tele) {
       <StyledPageUpper />
       <Dropdown
         title="Mašīnas marka"
-        options={carOptions}
-        onSelect={onSelect("car", "carLogo")}
+        options={data.vehicle.make.map((make) => make.brand).sort()}
+        onSelect={onSelect("car")}
       />
       <Dropdown
         title="Mašīnas virsbūves tips"
-        options={carBodyType}
+        options={data.vehicle.bodyType}
         onSelect={onSelect("carBody")}
       />
       <Dropdown
         title="Mašīnas modelis"
-        options={models}
+        options={getModelsForSelectedCar()}
         onSelect={onSelect("model")}
-      />
-      <Dropdown
-        title="Mašīnas krāsa"
-        options={colorOptions}
-        onSelect={onSelect("color")}
       />
       <Choice
         title="Mašīnas ātr. kārba"
@@ -129,15 +110,25 @@ export default function MakeScreen(tele) {
         onChangeStart={(value) => updateFormData("yearStart", value)}
         onChangeEnd={(value) => updateFormData("yearEnd", value)}
       />
-      <NumberField
-        title="Tilpums"
-        onChangeStart={(value) => updateFormData("volumeStart", value)}
-        onChangeEnd={(value) => updateFormData("volumeEnd", value)}
+      <Dropdown
+        title="Dzinēja sākuma izmērs"
+        options={data.vehicle.engineSizes}
+        onSelect={onSelect("volumeStart")}
+      />
+      <Dropdown
+        title="Dzinēja beigu izmērs"
+        options={data.vehicle.engineSizes}
+        onSelect={onSelect("volumeEnd")}
       />
       <NumberField
         title="Nobraukums"
         onChangeStart={(value) => updateFormData("mileageStart", value)}
         onChangeEnd={(value) => updateFormData("mileageEnd", value)}
+      />
+      <NumberField
+        title="Cena"
+        onChangeStart={(value) => updateFormData("priceStart", value)}
+        onChangeEnd={(value) => updateFormData("priceEnd", value)}
       />
       <Button buttonText="Apstiprināt" onClick={handleFormSubmit} />
     </div>

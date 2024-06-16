@@ -9,11 +9,12 @@ export default function Dropdown(props) {
   };
 
   const handleSelect = (choice) => {
-    setCurrentChoice(choice.title);
+    const selectedChoice = choice.title || choice;
+    setCurrentChoice(selectedChoice);
     setOpen(false);
 
     if (props.onSelect) {
-      props.onSelect(choice.title);
+      props.onSelect(selectedChoice);
     }
   };
 
@@ -29,7 +30,7 @@ export default function Dropdown(props) {
             {props.options.map((choice, index) => (
               <li key={index} className="menu-item">
                 <button onClick={() => handleSelect(choice)}>
-                  {choice.title}
+                  {choice.title || choice}
                 </button>
               </li>
             ))}

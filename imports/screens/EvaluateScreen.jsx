@@ -2,14 +2,9 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import React from "react";
 
-export default function EvaluateScreen({ onCheckout, tele }) {
+export default function EvaluateScreen({ onCheckout }) {
   const location = useLocation();
   const formData = location.state;
-
-  useEffect(() => {
-    tele.MainButton.text = "Pay :)";
-    tele.MainButton.show();
-  });
 
   return (
     <div className="evaluationContainer">

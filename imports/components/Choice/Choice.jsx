@@ -24,6 +24,7 @@ export default function Choice(props) {
                 checked={option === type}
                 onChange={() => handleOptionChange(type)}
               />
+              {type}
             </label>
           </form>
         ))}
